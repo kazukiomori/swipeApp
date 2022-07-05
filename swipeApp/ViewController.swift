@@ -22,6 +22,9 @@ class ViewController: UIViewController {
     
     var selectedCardCount = 0
     
+    let name = ["ほのか","あかね","みほ","カルロス"]
+    var likedName = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         centerOfCard = basicCard.center
@@ -66,12 +69,17 @@ class ViewController: UIViewController {
                     self.resetCard()
                     self.people[self.selectedCardCount].center = CGPoint(x: self.people[self.selectedCardCount].center.x - 250, y: self.people[self.selectedCardCount].center.y)
                 }
+                selectedCardCount += 1
+                likeImageView.alpha = 0
                 return
             } else if card.center.x > view.frame.width - 70 {
                 UIView.animate(withDuration: 0.2) {
                     self.resetCard()
                     self.people[self.selectedCardCount].center = CGPoint(x: self.people[self.selectedCardCount].center.x + 250, y: self.people[self.selectedCardCount].center.y)
                 }
+                likedName.append(name[selectedCardCount])
+                selectedCardCount += 1
+                likeImageView.alpha = 0
                 return
             }
             
