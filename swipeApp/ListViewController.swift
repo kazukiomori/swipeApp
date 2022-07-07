@@ -9,6 +9,8 @@ import UIKit
 
 class ListViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    var likedName = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,4 +28,17 @@ class ListViewController: UIViewController {
     }
     */
 
+}
+
+extension ListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = likedName[indexPath.row]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return likedName.count
+    }
+    
 }

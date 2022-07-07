@@ -39,7 +39,41 @@ class ViewController: UIViewController {
         basicCard.center = self.centerOfCard
         basicCard.transform = .identity
     }
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "pushList" {
+            let vc = segue.destination as! ListViewController
+            vc.likedName = likedName
+        }
+    }
+    
+    @IBAction func likeBtnTapped(_ sender: Any) {
+        UIView.animate(withDuration: 0.2) {
+            self.resetCard()
+            self.people[self.selectedCardCount].center = CGPoint(x: self.people[self.selectedCardCount].center.x + 500, y: self.people[self.selectedCardCount].center.y)
+        }
+        likedName.append(name[selectedCardCount])
+        selectedCardCount += 1
+        likeImageView.alpha = 0
+        
+        if selectedCardCount >= people.count {
+            performSegue(withIdentifier: "pushList", sender: self)
+        }
+    }
+    
+    @IBAction func nopeBtnTapped(_ sender: Any) {
+        UIView.animate(withDuration: 0.2) {
+            self.resetCard()
+            self.people[self.selectedCardCount].center = CGPoint(x: self.people[self.selectedCardCount].center.x - 500, y: self.people[self.selectedCardCount].center.y)
+        }
+        selectedCardCount += 1
+        likeImageView.alpha = 0
+        
+        if selectedCardCount >= people.count {
+            performSegue(withIdentifier: "pushList", sender: self)
+        }
+    }
+    
     @IBAction func swipeCard(_ sender: UIPanGestureRecognizer) {
         let card = sender.view!
         let point = sender.translation(in: view)
@@ -71,6 +105,10 @@ class ViewController: UIViewController {
                 }
                 selectedCardCount += 1
                 likeImageView.alpha = 0
+                
+                if selectedCardCount >= people.count {
+                    performSegue(withIdentifier: "pushList", sender: self)
+                }
                 return
             } else if card.center.x > view.frame.width - 70 {
                 UIView.animate(withDuration: 0.2) {
@@ -80,6 +118,10 @@ class ViewController: UIViewController {
                 likedName.append(name[selectedCardCount])
                 selectedCardCount += 1
                 likeImageView.alpha = 0
+                
+                if selectedCardCount >= people.count {
+                    performSegue(withIdentifier: "pushList", sender: self)
+                }
                 return
             }
             
